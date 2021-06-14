@@ -1,21 +1,21 @@
-python3 run_ee.py \
-    --data_dir ../maven/ \ #path to the test data, remember to delete the cached files at first (otherwise the test data may be random shuffled before)
+python3.6 run_ee.py \
+    --data_dir /home/zhaocg/MAVEN/ \
     --model_type bert \
-    --model_name_or_path ./MAVEN/checkpoint-2500 \ #path to the trained checkpoint
+    --model_name_or_path ./MAVEN/checkpoint-500 \
     --task_name maven_infer \
-    --output_dir ./MAVEN \ #output path
+    --output_dir ./MAVEN \
     --max_seq_length 128 \
     --do_lower_case \
-    --per_gpu_train_batch_size 42 \
-    --per_gpu_eval_batch_size 42 \
+    --per_gpu_train_batch_size 168 \
+    --per_gpu_eval_batch_size 168 \
     --gradient_accumulation_steps 2 \
     --learning_rate 5e-5 \
     --num_train_epochs 5 \
     --save_steps 500 \
     --logging_steps 500 \
     --seed 42 \
-    --do_infer #add this flag to do inference only
-python3 get_submission.py \ #convert the predictions to the submission format
-    --test_data ../maven/test.jsonl \ #path to the test data file
-    --preds MAVEN/checkpoint-2500/checkpoint-2500_preds.npy \ #path to the prediction file
-    --output ./results.jsonl #output file
+    --do_infer
+python3.6 get_submission.py \
+    --test_data /home/zhaocg/MAVEN/test.jsonl \
+    --preds MAVEN/checkpoint-500/checkpoint-500_preds.npy \
+    --output ./results.jsonl

@@ -1,13 +1,13 @@
-python3 run_ee.py \
-    --data_dir ../maven/ \ #path to the raw MAVEN data files
+python3.6 run_ee.py \
+    --data_dir /home/zhaocg/MAVEN/ \
     --model_type bert \
     --model_name_or_path bert-base-uncased \
     --task_name maven \
-    --output_dir ./MAVEN \ #path to dump checkpoints
+    --output_dir ./MAVEN \
     --max_seq_length 128 \
     --do_lower_case \
-    --per_gpu_train_batch_size 42 \
-    --per_gpu_eval_batch_size 42 \
+    --per_gpu_train_batch_size 168 \
+    --per_gpu_eval_batch_size 168 \
     --gradient_accumulation_steps 3 \
     --learning_rate 5e-5 \
     --num_train_epochs 5 \
@@ -16,4 +16,5 @@ python3 run_ee.py \
     --seed 42 \
     --do_eval \
     --do_train \
-    --evaluate_during_training
+    --evaluate_during_training \
+    --overwrite_output_dir
