@@ -35,9 +35,11 @@ from transformers import (
     BertConfig,
     BertForMultipleChoice,
     BertTokenizer,
-    RobertaConfig,
-    RobertaForMultipleChoice,
-    RobertaTokenizer,
+    AlbertConfig,
+    AlbertForMultipleChoice,
+    AlbertTokenizer,
+    DebertaConfig,
+    DebertaTokenizer,
     XLNetConfig,
     XLNetForMultipleChoice,
     XLNetTokenizer,
@@ -45,7 +47,7 @@ from transformers import (
 )
 from utils_ee import convert_examples_to_features, processors
 from sklearn.metrics import f1_score,precision_score,recall_score
-from model import DMBERT
+from model import DMBERT, DMALBERT, DMDEBERTA
 
 #try:
 #    from torch.utils.tensorboard import SummaryWriter
@@ -55,14 +57,11 @@ from model import DMBERT
 
 logger = logging.getLogger(__name__)
 
-# ALL_MODELS = sum(
-#     (tuple(conf.pretrained_config_archive_map.keys()) for conf in (BertConfig, XLNetConfig, RobertaConfig)), ()
-# )
-
 MODEL_CLASSES = {
     "bert": (BertConfig, DMBERT, BertTokenizer),
     "xlnet": (XLNetConfig, XLNetForMultipleChoice, XLNetTokenizer),
-    "roberta": (RobertaConfig, RobertaForMultipleChoice, RobertaTokenizer),
+    "albert": (AlbertConfig, DMALBERT, AlbertTokenizer),
+    "deberta": (DebertaConfig, DMDEBERTA, DebertaTokenizer)
 }
 
 def calculate_scores(preds, labels, dimE):
@@ -155,7 +154,7 @@ def train(args, train_dataset, model, tokenizer):
                 "input_ids": batch[0],
                 "attention_mask": batch[1],
                 "token_type_ids": batch[2]
-                if args.model_type in ["bert", "xlnet"]
+                if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert"]
                 else None,  # XLM don't use segment_ids
                 "maskL": batch[3],
                 "maskR": batch[4],
@@ -287,7 +286,7 @@ def evaluate(args, model, tokenizer, prefix="", test=False, infer=True):
                     "input_ids": batch[0],
                     "attention_mask": batch[1],
                     "token_type_ids": batch[2]
-                    if args.model_type in ["bert", "xlnet"]
+                    if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert"]
                     else None,  # XLM don't use segment_ids
                     "maskL": batch[3],
                     "maskR": batch[4],
@@ -601,17 +600,20 @@ def main():
         num_labels=num_labels,
         finetuning_task=args.task_name,
         cache_dir=args.cache_dir if args.cache_dir else None,
+        # mirror='https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models'
     )
     tokenizer = tokenizer_class.from_pretrained(
         args.tokenizer_name if args.tokenizer_name else args.model_name_or_path,
         do_lower_case=args.do_lower_case,
         cache_dir=args.cache_dir if args.cache_dir else None,
+        # mirror='https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models'
     )
     model = model_class.from_pretrained(
         args.model_name_or_path,
         from_tf=bool(".ckpt" in args.model_name_or_path),
         config=config,
         cache_dir=args.cache_dir if args.cache_dir else None,
+        # mirror='https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models'
     )
 
     if args.local_rank == 0:

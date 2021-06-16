@@ -1,13 +1,13 @@
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \
     --model_type bert \
-    --model_name_or_path ./MAVEN/checkpoint-500 \
+    --model_name_or_path ./MAVEN_bert_large/checkpoint-1500 \
     --task_name maven_infer \
     --output_dir ./MAVEN \
     --max_seq_length 128 \
     --do_lower_case \
-    --per_gpu_train_batch_size 168 \
-    --per_gpu_eval_batch_size 168 \
+    --per_gpu_train_batch_size 84 \
+    --per_gpu_eval_batch_size 84 \
     --gradient_accumulation_steps 2 \
     --learning_rate 5e-5 \
     --num_train_epochs 5 \
@@ -17,5 +17,5 @@ python3.6 run_ee.py \
     --do_infer
 python3.6 get_submission.py \
     --test_data /home/zhaocg/MAVEN/test.jsonl \
-    --preds MAVEN/checkpoint-500/checkpoint-500_preds.npy \
-    --output ./results.jsonl
+    --preds ./MAVEN_bert_large/checkpoint-1500/checkpoint-1500_preds.npy \
+    --output ./MAVEN_bert_large/results.jsonl

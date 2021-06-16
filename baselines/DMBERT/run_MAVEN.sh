@@ -1,16 +1,16 @@
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \
-    --model_type bert \
-    --model_name_or_path bert-base-uncased \
+    --model_type deberta \
+    --model_name_or_path microsoft/deberta-base \
     --task_name maven \
-    --output_dir ./MAVEN \
+    --output_dir ./MAVEN_deberta \
     --max_seq_length 128 \
     --do_lower_case \
-    --per_gpu_train_batch_size 168 \
-    --per_gpu_eval_batch_size 168 \
+    --per_gpu_train_batch_size 84 \
+    --per_gpu_eval_batch_size 84 \
     --gradient_accumulation_steps 3 \
     --learning_rate 5e-5 \
-    --num_train_epochs 5 \
+    --num_train_epochs 8 \
     --save_steps 500 \
     --logging_steps 500 \
     --seed 42 \
