@@ -6,13 +6,13 @@ python3.6 run_ee.py \
     --output_dir ./MAVEN_deberta_v2_xlarge \
     --max_seq_length 128 \
     --do_lower_case \
-    --per_gpu_train_batch_size 84 \
-    --per_gpu_eval_batch_size 84 \
-    --gradient_accumulation_steps 1 \
+    --per_gpu_train_batch_size 14 \
+    --per_gpu_eval_batch_size 14 \
+    --gradient_accumulation_steps 6 \
     --learning_rate 4e-5 \
     --num_train_epochs 5 \
-    --save_steps 599 \
-    --logging_steps 599 \
+    --save_steps 598 \
+    --logging_steps 598 \
     --seed 42 \
     --do_train \
     --evaluate_during_training \
