@@ -1,5 +1,5 @@
 export OUTPUT_PATH=./MAVEN_deberta
-export CK_NUM=500
+export CK_NUM=1797
 export MODEL_NAME=deberta
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \

@@ -1,21 +1,19 @@
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \
-    --model_type deberta \
-    --model_name_or_path microsoft/deberta-base \
+    --model_type deberta_v2 \
+    --model_name_or_path microsoft/deberta-v2-xlarge  \
     --task_name maven \
-    --output_dir ./MAVEN_deberta_2 \
+    --output_dir ./MAVEN_deberta_v2_xlarge \
     --max_seq_length 128 \
     --do_lower_case \
     --per_gpu_train_batch_size 84 \
     --per_gpu_eval_batch_size 84 \
-    --gradient_accumulation_steps 2 \
-    --learning_rate 3e-5 \
+    --gradient_accumulation_steps 1 \
+    --learning_rate 4e-5 \
     --num_train_epochs 5 \
-    --save_steps 480 \
-    --logging_steps 480 \
+    --save_steps 599 \
+    --logging_steps 599 \
     --seed 42 \
     --do_train \
-    --do_test \
-    --do_infer \
     --evaluate_during_training \
     --overwrite_output_dir

@@ -40,6 +40,8 @@ from transformers import (
     AlbertTokenizer,
     DebertaConfig,
     DebertaTokenizer,
+    DebertaV2Config,
+    DebertaV2Tokenizer,
     XLNetConfig,
     XLNetForMultipleChoice,
     XLNetTokenizer,
@@ -47,7 +49,7 @@ from transformers import (
 )
 from utils_ee import convert_examples_to_features, processors
 from sklearn.metrics import f1_score,precision_score,recall_score
-from model import DMBERT, DMALBERT, DMDEBERTA
+from model import DMBERT, DMALBERT, DMDEBERTA, DMDEBERTAV2
 
 #try:
 #    from torch.utils.tensorboard import SummaryWriter
@@ -62,7 +64,8 @@ MODEL_CLASSES = {
     "bert": (BertConfig, DMBERT, BertTokenizer),
     "xlnet": (XLNetConfig, XLNetForMultipleChoice, XLNetTokenizer),
     "albert": (AlbertConfig, DMALBERT, AlbertTokenizer),
-    "deberta": (DebertaConfig, DMDEBERTA, DebertaTokenizer)
+    "deberta": (DebertaConfig, DMDEBERTA, DebertaTokenizer),
+    "deberta_v2": (DebertaV2Config, DMDEBERTAV2, DebertaV2Tokenizer)
 }
 
 def calculate_scores(preds, labels, dimE):
@@ -157,7 +160,7 @@ def train(args, train_dataset, model, tokenizer):
                 "input_ids": batch[0],
                 "attention_mask": batch[1],
                 "token_type_ids": batch[2]
-                if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert"]
+                if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert", "deberta_v2"]
                 else None,  # XLM don't use segment_ids
                 "maskL": batch[3],
                 "maskR": batch[4],
@@ -290,7 +293,7 @@ def evaluate(args, model, tokenizer, prefix="", test=False, infer=True):
                     "input_ids": batch[0],
                     "attention_mask": batch[1],
                     "token_type_ids": batch[2]
-                    if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert"]
+                    if args.model_type in ["bert", "xlnet", "deberta", "roberta", "albert", "deberta_v2"]
                     else None,  # XLM don't use segment_ids
                     "maskL": batch[3],
                     "maskR": batch[4],
