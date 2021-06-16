@@ -56,6 +56,7 @@ from model import DMBERT, DMALBERT, DMDEBERTA
 
 
 logger = logging.getLogger(__name__)
+set_parallel = False
 
 MODEL_CLASSES = {
     "bert": (BertConfig, DMBERT, BertTokenizer),
@@ -115,7 +116,9 @@ def train(args, train_dataset, model, tokenizer):
         model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
 
     # multi-gpu training (should be after apex fp16 initialization)
-    if args.n_gpu > 1:
+    global set_parallel
+    if args.n_gpu > 1 and not set_parallel:
+        set_parallel = True
         model = torch.nn.DataParallel(model)
 
     # Distributed training (should be after apex fp16 initialization)
@@ -265,9 +268,10 @@ def evaluate(args, model, tokenizer, prefix="", test=False, infer=True):
         eval_dataloader = DataLoader(eval_dataset, sampler=eval_sampler, batch_size=args.eval_batch_size)
 
         # multi-gpu evaluate
-        #if args.n_gpu > 1:
-            #print("?????",args.n_gpu)
-            #model = torch.nn.DataParallel(model)
+        global set_parallel
+        if args.n_gpu > 1 and not set_parallel:
+            set_parallel = True
+            model = torch.nn.DataParallel(model)
 
         # Eval!
         logger.info("***** Running evaluation {} *****".format(prefix))

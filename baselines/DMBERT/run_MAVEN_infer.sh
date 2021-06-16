@@ -1,5 +1,5 @@
 export OUTPUT_PATH=./MAVEN_deberta
-export CK_NUM=1
+export CK_NUM=500
 export MODEL_NAME=deberta
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \
@@ -14,11 +14,11 @@ python3.6 run_ee.py \
     --gradient_accumulation_steps 2 \
     --learning_rate 5e-5 \
     --num_train_epochs 5 \
-    --save_steps 500 \
-    --logging_steps 500 \
+    --save_steps 480 \
+    --logging_steps 480 \
     --seed 42 \
     --do_infer
 python3.6 get_submission.py \
     --test_data /home/zhaocg/MAVEN/test.jsonl \
     --preds ${OUTPUT_PATH}/checkpoint-${CK_NUM}/checkpoint-${CK_NUM}_preds.npy \
-    --output ${OUTPUT_PATH}/results.jsonl
+    --output ${OUTPUT_PATH}/checkpoint-${CK_NUM}/results.jsonl

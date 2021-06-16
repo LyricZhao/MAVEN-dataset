@@ -3,18 +3,19 @@ python3.6 run_ee.py \
     --model_type deberta \
     --model_name_or_path microsoft/deberta-base \
     --task_name maven \
-    --output_dir ./MAVEN_deberta \
+    --output_dir ./MAVEN_deberta_2 \
     --max_seq_length 128 \
     --do_lower_case \
     --per_gpu_train_batch_size 84 \
     --per_gpu_eval_batch_size 84 \
     --gradient_accumulation_steps 2 \
-    --learning_rate 5e-5 \
+    --learning_rate 3e-5 \
     --num_train_epochs 5 \
-    --save_steps 500 \
-    --logging_steps 500 \
+    --save_steps 480 \
+    --logging_steps 480 \
     --seed 42 \
-    --do_eval \
     --do_train \
+    --do_test \
+    --do_infer \
     --evaluate_during_training \
     --overwrite_output_dir
