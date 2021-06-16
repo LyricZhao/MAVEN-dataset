@@ -1,9 +1,12 @@
+export OUTPUT_PATH=./MAVEN_deberta
+export CK_NUM=1
+export MODEL_NAME=deberta
 python3.6 run_ee.py \
     --data_dir /home/zhaocg/MAVEN/ \
-    --model_type bert \
-    --model_name_or_path ./MAVEN_bert_large/checkpoint-1500 \
+    --model_type ${MODEL_NAME} \
+    --model_name_or_path ${OUTPUT_PATH}/checkpoint-${CK_NUM} \
     --task_name maven_infer \
-    --output_dir ./MAVEN \
+    --output_dir ${OUTPUT_PATH} \
     --max_seq_length 128 \
     --do_lower_case \
     --per_gpu_train_batch_size 84 \
@@ -17,5 +20,5 @@ python3.6 run_ee.py \
     --do_infer
 python3.6 get_submission.py \
     --test_data /home/zhaocg/MAVEN/test.jsonl \
-    --preds ./MAVEN_bert_large/checkpoint-1500/checkpoint-1500_preds.npy \
-    --output ./MAVEN_bert_large/results.jsonl
+    --preds ${OUTPUT_PATH}/checkpoint-${CK_NUM}/checkpoint-${CK_NUM}_preds.npy \
+    --output ${OUTPUT_PATH}/results.jsonl

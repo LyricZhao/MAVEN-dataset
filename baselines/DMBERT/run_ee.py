@@ -223,13 +223,13 @@ def train(args, train_dataset, model, tokenizer):
                         model.module if hasattr(model, "module") else model
                     )  # Take care of distributed/parallel training
                     model_to_save.save_pretrained(output_dir)
-                    #add
-                    basic=model.module if hasattr(model, "module") else model
-                    bert_to_save = (basic.bert.module if hasattr(basic.bert, "module") else basic.bert)
-                    tmp=os.path.join(output_dir,"bert")
-                    if not os.path.exists(tmp):
-                        os.makedirs(tmp)
-                    bert_to_save.save_pretrained(tmp)
+                    # Save BERT
+                    # basic=model.module if hasattr(model, "module") else model
+                    # bert_to_save = (basic.bert.module if hasattr(basic.bert, "module") else basic.bert)
+                    # tmp=os.path.join(output_dir,"bert")
+                    # if not os.path.exists(tmp):
+                    #     os.makedirs(tmp)
+                    # bert_to_save.save_pretrained(tmp)
                     #add end
                     tokenizer.save_vocabulary(output_dir)
                     torch.save(args, os.path.join(output_dir, "training_args.bin"))
