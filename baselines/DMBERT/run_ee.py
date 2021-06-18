@@ -146,6 +146,7 @@ def train(args, train_dataset, model, tokenizer):
 
     global_step = 0
     tr_loss, logging_loss = 0.0, 0.0
+    ltr_loss, llogging_loss = 0.0, 0.0
     best_dev_f1 = 0.0
     best_steps = 0
     model.zero_grad()
@@ -182,13 +183,22 @@ def train(args, train_dataset, model, tokenizer):
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
 
-            tr_loss += loss.item()
+            lossi = loss.item()
+            tr_loss += lossi
+            ltr_loss += lossi
             if (step + 1) % args.gradient_accumulation_steps == 0:
 
                 optimizer.step()
                 scheduler.step()  # Update learning rate schedule
                 model.zero_grad()
                 global_step += 1
+                if global_step % 7 == 0:
+                    logger.info(
+                        "GLoss: %s at global step: %s",
+                        str((ltr_loss - llogging_loss) / 7),
+                        str(global_step),
+                    )
+                    llogging_loss = ltr_loss
 
                 if args.local_rank in [-1, 0] and args.logging_steps > 0 and global_step % args.logging_steps == 0:
                     # Log metrics
