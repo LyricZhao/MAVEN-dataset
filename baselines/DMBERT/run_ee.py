@@ -49,7 +49,7 @@ from transformers import (
 )
 from utils_ee import convert_examples_to_features, processors
 from sklearn.metrics import f1_score,precision_score,recall_score
-from model import DMBERT, DMALBERT, DMDEBERTA, DMDEBERTAV2
+from model import DMBERT, DMALBERT, DMDEBERTA, DMDEBERTAV2, DMXLNET
 
 #try:
 #    from torch.utils.tensorboard import SummaryWriter
@@ -62,7 +62,7 @@ set_parallel = False
 
 MODEL_CLASSES = {
     "bert": (BertConfig, DMBERT, BertTokenizer),
-    "xlnet": (XLNetConfig, XLNetForMultipleChoice, XLNetTokenizer),
+    "xlnet": (XLNetConfig, DMXLNET, XLNetTokenizer),
     "albert": (AlbertConfig, DMALBERT, AlbertTokenizer),
     "deberta": (DebertaConfig, DMDEBERTA, DebertaTokenizer),
     "deberta_v2": (DebertaV2Config, DMDEBERTAV2, DebertaV2Tokenizer)
